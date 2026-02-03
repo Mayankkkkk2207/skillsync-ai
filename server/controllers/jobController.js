@@ -23,17 +23,37 @@ export const createJob = async (req, res) => {
   }
 };
 
-// GET all jobs (for logged-in user)
+// GET jobs (filters + pagination)
 export const getJobs = async (req, res) => {
-  try {
-    const jobs = await Job.find({ user: req.user._id }).sort({
-      createdAt: -1,
-    });
-    res.json(jobs);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
+    try {
+      const { status, page = 1, limit = 10 } = req.query;
+  
+      const query = { user: req.user._id };
+      if (status) query.status = status;
+  
+      const skip = (Number(page) - 1) * Number(limit);
+  
+      const jobs = await Job.find(query)
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(Number(limit));
+  
+      const total = await Job.countDocuments(query);
+  
+      res.json({
+        data: jobs,
+        meta: {
+          total,
+          page: Number(page),
+          limit: Number(limit),
+          pages: Math.ceil(total / Number(limit)),
+        },
+      });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  };
+  
 
 // UPDATE job
 export const updateJob = async (req, res) => {
@@ -77,3 +97,29 @@ export const deleteJob = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+// GET dashboard job stats
+export const getJobStats = async (req, res) => {
+    try {
+      const stats = await Job.aggregate([
+        { $match: { user: req.user._id } },
+        { $group: { _id: "$status", count: { $sum: 1 } } },
+      ]);
+  
+      const formatted = {
+        applied: 0,
+        interview: 0,
+        offer: 0,
+        rejected: 0,
+      };
+  
+      stats.forEach(item => {
+        formatted[item._id] = item.count;
+      });
+  
+      res.json(formatted);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  };
+  
