@@ -1,98 +1,132 @@
 # SkillSync AI 🚀
 
-SkillSync AI is a SaaS-style MERN application designed to help users track job applications and gain structured career insights.
+SkillSync AI is a full-stack MERN application designed to help users track job applications, monitor progress, and later integrate AI-based career insights.  
+This repository documents the development journey from **Day 1 to Day 7**, focusing on building a solid, production-ready foundation.
 
 ---
 
-## 🔧 Tech Stack
+## 🛠 Tech Stack
+
+### Frontend
+- React (Vite)
+- Tailwind CSS v4
+- React Router DOM
+- Axios
+
+### Backend
 - Node.js
 - Express.js
 - MongoDB Atlas
 - Mongoose
-- JSON Web Tokens (JWT)
+- JWT Authentication
 - bcrypt
-- Postman (API testing)
 
----
-
-## ✅ Features Implemented (Week 1)
-
-### 🔐 Authentication & Authorization (Day 3)
-- User registration and login APIs
-- Password hashing using bcrypt
-- JWT token generation on login
-- JWT-based authentication middleware
-- Protected routes using Bearer token
-- Authenticated user context via `req.user`
-
----
-
-### 💼 Job Management (Day 4)
-- Job schema with user ownership
-- Create, read, update, delete (CRUD) job APIs
-- Job status tracking (applied, interview, offer, rejected)
-- User-specific job isolation
-- JWT-protected job routes
-
----
-
-### 📊 Dashboard & API Enhancements (Day 5)
-- Job filtering by status
-- Pagination support for job listings
-- Dashboard statistics API using MongoDB aggregation
-- Job count by status for authenticated users
-- Clean and structured API responses
+### Tools
+- Git & GitHub
+- Postman
+- MongoDB Atlas
+- Vercel (planned)
+- Render (planned)
 
 ---
 
 ## 📁 Project Structure
+
 skillsync-ai/
-├── server/
-│ ├── config/
-│ ├── controllers/
-│ ├── middleware/
-│ ├── models/
-│ ├── routes/
-│ └── index.js
-└── client/ (coming soon)
+├── client/ # React frontend
+└── server/ # Node + Express backend
 
 
 ---
 
-## 🚀 Running the Project Locally
+## 📅 Development Progress
 
-### Clone the repository
+## ✅ Day 1 – Project Initialization & Backend Setup
+- Initialized Node.js backend
+- Installed core dependencies (express, mongoose, dotenv)
+- Connected MongoDB Atlas cluster
+- Created basic folder structure
+- Verified server startup
+
+---
+
+## ✅ Day 2 – Database Models & Structure
+- Created User model using Mongoose
+- Designed schema with validations
+- Tested MongoDB connection stability
+- Prepared base for authentication system
+
+---
+
+## ✅ Day 3 – Authentication (Register & Login)
+- Implemented user registration
+- Password hashing using bcrypt
+- Implemented login functionality
+- JWT token generation on login
+- Validated credentials with proper HTTP status codes
+
+---
+
+## ✅ Day 4 – Authorization & Middleware
+- Created JWT authentication middleware
+- Protected private routes
+- Implemented user-specific access control
+- Added authorization headers handling
+
+---
+
+## ✅ Day 5 – API Structuring & Job Routes
+- API versioning using `/api/v1`
+- Created Job routes and controllers
+- Protected job-related endpoints
+- Tested all routes using Postman
+- Clean error handling and responses
+
+---
+
+## ✅ Day 6 – Frontend Setup
+- Initialized React app using Vite
+- Installed and configured Tailwind CSS v4
+- Installed React Router DOM
+- Setup Axios instance
+- Resolved Tailwind v4 + Vite integration issues
+- Fixed dependency and config conflicts
+
+---
+
+## ✅ Day 7 – Full Auth Flow & Dashboard Integration
+- Implemented frontend authentication flow
+- Login & Register pages connected to backend
+- JWT token stored securely in localStorage
+- Axios interceptor to attach token automatically
+- Protected dashboard route using custom ProtectedRoute
+- Connected dashboard to secured backend endpoint
+- Debugged and resolved:
+  - 404 route issues
+  - API version mismatch
+  - 401 invalid credentials
+  - MongoDB data consistency
+- Verified complete login → dashboard flow
+
+---
+
+## 🔐 Authentication Flow
+1. User registers with hashed password
+2. User logs in and receives JWT token
+3. Token stored in browser
+4. Axios interceptor attaches token to requests
+5. Protected routes validate token before access
+
+---
+
+## ▶️ How to Run Locally
+
+### Backend
 ```bash
-git clone <your-repo-url>
-cd skillsync-ai/server
-
+cd server
 npm install
-
-PORT=5000
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_secret_key
-
 npm run dev
 
-http://localhost:5000
-
-🧪 API Testing
-
-APIs tested using Postman
-
-Authorization via Authorization: Bearer <token>
-
-📌 Upcoming Features
-
-Frontend dashboard using React and Tailwind CSS
-
-Job analytics and visual charts
-
-AI-based resume and job description matching
-
-Cloud deployment (Render and Vercel)
-
-👨‍💻 Author
-
+👤 Author
 Mayank Kumrawat
-Backend-focused MERN Developer
+Full-Stack Developer (MERN)
