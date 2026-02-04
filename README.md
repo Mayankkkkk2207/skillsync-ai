@@ -119,6 +119,43 @@ skillsync-ai/
 
 ---
 
+## ✅ Day 8 – Job Management & Dashboard UI
+
+Day 8 focused on turning the application into a usable product by implementing job creation and job listing features with a real dashboard interface.
+
+### Backend Enhancements
+- Implemented job creation endpoint (`POST /api/v1/jobs`)
+- Implemented job listing endpoint (`GET /api/v1/jobs`)
+- Added job status support (`applied`, `interview`, `offer`, `rejected`)
+- Implemented pagination and filtering support in job listing
+- Added job statistics endpoint (`GET /api/v1/jobs/stats`)
+- Ensured all job routes are protected using JWT middleware
+
+### Frontend Enhancements
+- Created **Add Job** page with form validation
+- Connected job creation form to secured backend API
+- Updated Dashboard to display user-specific job listings
+- Implemented job list UI with role, company, and status
+- Added navigation from dashboard to add-job page
+- Handled paginated API response structure correctly
+
+### Key Technical Learnings
+- Handling paginated API responses on the frontend
+- Aligning frontend state with backend response structure
+- Debugging data shape mismatches (`jobs.map is not a function`)
+- Building scalable CRUD-ready architecture
+
+### Result
+By the end of Day 8, users can securely:
+- Add job applications
+- View all their jobs on a dashboard
+- See real-time data fetched from protected APIs
+
+This marks the transition from a basic authenticated system to a functional job-tracking product.
+
+---
+
+
 ## ▶️ How to Run Locally
 
 ### Backend

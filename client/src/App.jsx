@@ -3,6 +3,8 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
+import AddJob from "./pages/AddJob";
+
 
 export default function App() {
   return (
@@ -18,6 +20,14 @@ export default function App() {
   }
 />
       <Route path="*" element={<Navigate to="/login" />} />
+      <Route
+  path="/add-job"
+  element={
+    <ProtectedRoute>
+      <AddJob />
+    </ProtectedRoute>
+  }
+/>
     </Routes>
   );
 }
