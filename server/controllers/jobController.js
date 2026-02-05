@@ -54,6 +54,23 @@ export const getJobs = async (req, res) => {
     }
   };
   
+// GET single job
+export const getJobById = async (req, res) => {
+  try {
+    const job = await Job.findOne({
+      _id: req.params.id,
+      user: req.user._id,
+    });
+
+    if (!job) {
+      return res.status(404).json({ message: "Job not found" });
+    }
+
+    res.json(job);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 // UPDATE job
 export const updateJob = async (req, res) => {

@@ -154,6 +154,42 @@ By the end of Day 8, users can securely:
 This marks the transition from a basic authenticated system to a functional job-tracking product.
 
 ---
+## ✅ Day 9 – Edit & Delete Jobs (Full CRUD Completion)
+
+Day 9 focused on completing the full CRUD lifecycle for job applications, with secure edit and delete functionality integrated into the dashboard.
+
+### Backend Enhancements
+- Added `GET /api/v1/jobs/:id` endpoint to fetch a single job by ID
+- Ensured job access is user-scoped using JWT authentication
+- Fixed route ordering issues to correctly handle dynamic job routes
+- Reused existing `PUT /jobs/:id` and `DELETE /jobs/:id` endpoints for updates and removals
+
+### Frontend Enhancements
+- Implemented **Edit Job** functionality with dynamic routing (`/edit-job/:id`)
+- Created Edit Job page with pre-filled form data
+- Connected edit form to backend update API
+- Implemented real-time delete functionality with UI state update
+- Secured edit and delete actions using protected routes
+- Resolved authentication redirect issues by aligning token storage and route guards
+
+### Key Technical Learnings
+- Importance of route order in Express for dynamic parameters
+- Handling authenticated navigation in React Router
+- Debugging protected route redirect loops
+- Managing paginated and single-resource API responses
+- Building complete CRUD flows in a production-style MERN app
+
+### Result
+By the end of Day 9, users can:
+- Add job applications
+- View all jobs in a dashboard
+- Edit existing jobs
+- Delete jobs securely
+- Navigate seamlessly with authentication protection
+
+This marks the completion of a **full-featured job tracking system** with real-world CRUD patterns and secure access control.
+
+---
 
 
 ## ▶️ How to Run Locally
