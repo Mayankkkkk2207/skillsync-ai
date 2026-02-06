@@ -23,36 +23,62 @@ export const createJob = async (req, res) => {
   }
 };
 
-// GET jobs (filters + pagination)
+// GET jobs (filters + search + sorting + pagination)
 export const getJobs = async (req, res) => {
-    try {
-      const { status, page = 1, limit = 10 } = req.query;
-  
-      const query = { user: req.user._id };
-      if (status) query.status = status;
-  
-      const skip = (Number(page) - 1) * Number(limit);
-  
-      const jobs = await Job.find(query)
-        .sort({ createdAt: -1 })
-        .skip(skip)
-        .limit(Number(limit));
-  
-      const total = await Job.countDocuments(query);
-  
-      res.json({
-        data: jobs,
-        meta: {
-          total,
-          page: Number(page),
-          limit: Number(limit),
-          pages: Math.ceil(total / Number(limit)),
-        },
-      });
-    } catch (error) {
-      res.status(500).json({ message: error.message });
+  try {
+    const {
+      status,
+      search,
+      sort = "createdAt:desc",
+      page = 1,
+      limit = 10,
+    } = req.query;
+
+    const query = { user: req.user._id };
+
+    // ✅ STATUS FILTER
+    if (status) {
+      query.status = status;
     }
-  };
+
+    // ✅ SEARCH (company + role)
+    if (search) {
+      query.$or = [
+        { company: { $regex: search, $options: "i" } },
+        { role: { $regex: search, $options: "i" } },
+      ];
+    }
+
+    // ✅ SORTING
+    const [sortField, sortOrder] = sort.split(":");
+    const sortObj = {
+      [sortField]: sortOrder === "asc" ? 1 : -1,
+    };
+
+    // ✅ PAGINATION
+    const skip = (Number(page) - 1) * Number(limit);
+
+    const jobs = await Job.find(query)
+      .sort(sortObj)
+      .skip(skip)
+      .limit(Number(limit));
+
+    const total = await Job.countDocuments(query);
+
+    res.json({
+      data: jobs,
+      meta: {
+        total,
+        page: Number(page),
+        limit: Number(limit),
+        pages: Math.ceil(total / Number(limit)),
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
   
 // GET single job
 export const getJobById = async (req, res) => {
