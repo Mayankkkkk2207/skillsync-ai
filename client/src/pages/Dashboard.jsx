@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 export default function Dashboard() {
   const [jobs, setJobs] = useState([]);
+  const [stats, setStats] = useState(null);
   const [status, setStatus] = useState("");
   const [search, setSearch] = useState("");
 
@@ -17,18 +18,37 @@ export default function Dashboard() {
     setJobs(res.data.data);
   };
 
+  const fetchStats = async () => {
+    const res = await api.get("/jobs/stats");
+    setStats(res.data);
+  };
+
   useEffect(() => {
     fetchJobs();
+    fetchStats();
   }, [status, search]);
 
   const deleteJob = async (id) => {
     if (!confirm("Delete this job?")) return;
     await api.delete(`/jobs/${id}`);
     fetchJobs();
+    fetchStats();
   };
 
   return (
     <div className="p-6 max-w-5xl mx-auto">
+
+      {/* 📊 Stats Cards */}
+      {stats && (
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          <StatCard title="Applied" value={stats.applied} />
+          <StatCard title="Interview" value={stats.interview} />
+          <StatCard title="Offer" value={stats.offer} />
+          <StatCard title="Rejected" value={stats.rejected} />
+        </div>
+      )}
+
+      {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">My Jobs</h1>
         <Link to="/add-job" className="bg-black text-white px-4 py-2 rounded">
@@ -58,6 +78,7 @@ export default function Dashboard() {
         </select>
       </div>
 
+      {/* Jobs List */}
       {jobs.length === 0 ? (
         <p>No jobs found.</p>
       ) : (
@@ -92,6 +113,16 @@ export default function Dashboard() {
           ))}
         </div>
       )}
+    </div>
+  );
+}
+
+/* 🧩 Reusable Stat Card */
+function StatCard({ title, value }) {
+  return (
+    <div className="border rounded p-4 text-center bg-white shadow-sm">
+      <p className="text-sm text-gray-500">{title}</p>
+      <p className="text-3xl font-bold">{value}</p>
     </div>
   );
 }

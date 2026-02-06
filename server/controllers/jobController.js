@@ -1,6 +1,8 @@
 import Job from "../models/jobs.js";
 
-// CREATE job
+// ===============================
+// CREATE JOB
+// ===============================
 export const createJob = async (req, res) => {
   try {
     const { company, role, status, notes } = req.body;
@@ -23,25 +25,27 @@ export const createJob = async (req, res) => {
   }
 };
 
-// GET jobs (filters + search + sorting + pagination)
+// ===============================
+// GET JOBS (filter + search + sort + pagination)
+// ===============================
 export const getJobs = async (req, res) => {
   try {
     const {
       status,
       search,
-      sort = "createdAt:desc",
+      sort = "latest",
       page = 1,
-      limit = 10,
+      limit = 6,
     } = req.query;
 
     const query = { user: req.user._id };
 
-    // ✅ STATUS FILTER
+    // STATUS FILTER
     if (status) {
       query.status = status;
     }
 
-    // ✅ SEARCH (company + role)
+    // SEARCH (company + role)
     if (search) {
       query.$or = [
         { company: { $regex: search, $options: "i" } },
@@ -49,17 +53,17 @@ export const getJobs = async (req, res) => {
       ];
     }
 
-    // ✅ SORTING
-    const [sortField, sortOrder] = sort.split(":");
-    const sortObj = {
-      [sortField]: sortOrder === "asc" ? 1 : -1,
-    };
+    // SORTING
+    const sortOption =
+      sort === "oldest"
+        ? { createdAt: 1 }
+        : { createdAt: -1 }; // latest (default)
 
-    // ✅ PAGINATION
+    // PAGINATION
     const skip = (Number(page) - 1) * Number(limit);
 
     const jobs = await Job.find(query)
-      .sort(sortObj)
+      .sort(sortOption)
       .skip(skip)
       .limit(Number(limit));
 
@@ -79,8 +83,9 @@ export const getJobs = async (req, res) => {
   }
 };
 
-  
-// GET single job
+// ===============================
+// GET SINGLE JOB
+// ===============================
 export const getJobById = async (req, res) => {
   try {
     const job = await Job.findOne({
@@ -98,7 +103,9 @@ export const getJobById = async (req, res) => {
   }
 };
 
-// UPDATE job
+// ===============================
+// UPDATE JOB
+// ===============================
 export const updateJob = async (req, res) => {
   try {
     const job = await Job.findOne({
@@ -110,10 +117,10 @@ export const updateJob = async (req, res) => {
       return res.status(404).json({ message: "Job not found" });
     }
 
-    job.company = req.body.company || job.company;
-    job.role = req.body.role || job.role;
-    job.status = req.body.status || job.status;
-    job.notes = req.body.notes || job.notes;
+    job.company = req.body.company ?? job.company;
+    job.role = req.body.role ?? job.role;
+    job.status = req.body.status ?? job.status;
+    job.notes = req.body.notes ?? job.notes;
 
     const updatedJob = await job.save();
     res.json(updatedJob);
@@ -122,7 +129,9 @@ export const updateJob = async (req, res) => {
   }
 };
 
-// DELETE job
+// ===============================
+// DELETE JOB
+// ===============================
 export const deleteJob = async (req, res) => {
   try {
     const job = await Job.findOne({
@@ -141,28 +150,29 @@ export const deleteJob = async (req, res) => {
   }
 };
 
-// GET dashboard job stats
+// ===============================
+// DASHBOARD STATS
+// ===============================
 export const getJobStats = async (req, res) => {
-    try {
-      const stats = await Job.aggregate([
-        { $match: { user: req.user._id } },
-        { $group: { _id: "$status", count: { $sum: 1 } } },
-      ]);
-  
-      const formatted = {
-        applied: 0,
-        interview: 0,
-        offer: 0,
-        rejected: 0,
-      };
-  
-      stats.forEach(item => {
-        formatted[item._id] = item.count;
-      });
-  
-      res.json(formatted);
-    } catch (error) {
-      res.status(500).json({ message: error.message });
-    }
-  };
-  
+  try {
+    const stats = await Job.aggregate([
+      { $match: { user: req.user._id } },
+      { $group: { _id: "$status", count: { $sum: 1 } } },
+    ]);
+
+    const formatted = {
+      applied: 0,
+      interview: 0,
+      offer: 0,
+      rejected: 0,
+    };
+
+    stats.forEach((item) => {
+      formatted[item._id] = item.count;
+    });
+
+    res.json(formatted);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
