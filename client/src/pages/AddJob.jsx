@@ -27,51 +27,53 @@ export default function AddJob() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <form
-        onSubmit={submitHandler}
-        className="w-full max-w-md space-y-4 border p-6 rounded"
-      >
-        <h2 className="text-xl font-bold">Add Job</h2>
+    <div className="min-h-screen flex items-center justify-center bg-slate-900 text-slate-200 px-4 py-8">
+      <div className="w-full max-w-lg bg-slate-950 border border-slate-800 rounded-2xl p-8">
+        <h2 className="text-2xl font-bold mb-6">Add New Job</h2>
 
-        <input
-          className="border p-2 w-full"
-          placeholder="Company"
-          value={company}
-          onChange={(e) => setCompany(e.target.value)}
-          required
-        />
+        <form onSubmit={submitHandler} className="space-y-4">
+          <input
+            className="w-full border border-slate-600 bg-slate-900 text-slate-200 p-2.5 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+            placeholder="Company"
+            value={company}
+            onChange={(e) => setCompany(e.target.value)}
+            required
+          />
 
-        <input
-          className="border p-2 w-full"
-          placeholder="Role"
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
-          required
-        />
+          <input
+            className="w-full border border-slate-600 bg-slate-900 text-slate-200 p-2.5 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+            placeholder="Role"
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+            required
+          />
 
-        <select
-          className="border p-2 w-full"
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
-        >
-          <option value="applied">Applied</option>
-          <option value="interview">Interview</option>
-          <option value="offer">Offer</option>
-          <option value="rejected">Rejected</option>
-        </select>
+          <select
+            className="w-full border border-slate-600 bg-slate-900 text-slate-200 p-2.5 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+          >
+            <option value="applied">Applied</option>
+            <option value="interview">Interview</option>
+            <option value="offer">Offer</option>
+            <option value="rejected">Rejected</option>
+          </select>
 
-        <textarea
-          className="border p-2 w-full"
-          placeholder="Notes (optional)"
-          value={notes}
-          onChange={(e) => setNotes(e.target.value)}
-        />
+          <textarea
+            className="w-full border border-slate-600 bg-slate-900 text-slate-200 p-2.5 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none min-h-[80px]"
+            placeholder="Notes (optional)"
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+          />
 
-        <button className="bg-black text-white p-2 w-full">
-          Add Job
-        </button>
-      </form>
+          <button
+            type="submit"
+            className="w-full bg-blue-600 hover:bg-blue-700 py-3 rounded-lg font-semibold"
+          >
+            Save Job
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

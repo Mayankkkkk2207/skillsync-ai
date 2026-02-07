@@ -27,38 +27,31 @@ export default function Login() {
   };
 
   return (
-    <form
-      onSubmit={submit}
-      className="min-h-screen grid place-items-center"
-    >
-      <div className="w-80 space-y-3">
-        <h1 className="text-xl font-bold text-center">Login</h1>
-
-        <input
-          className="border p-2 w-full"
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-
-        <input
-          className="border p-2 w-full"
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-
-        <button
-          type="submit"
-          className="bg-black text-white p-2 w-full"
-        >
-          Login
-        </button>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-200">
+      <div className="w-full max-w-md bg-slate-950/80 backdrop-blur border border-slate-800 rounded-2xl p-8 shadow-xl">
+  
+        <h1 className="text-3xl font-bold mb-2">Welcome Back</h1>
+        <p className="text-slate-400 mb-6">Login to manage your job tracker</p>
+  
+        <form onSubmit={submit} className="space-y-4">
+          <input
+            className="w-full bg-transparent border border-slate-700 rounded-lg p-3 placeholder-slate-500 focus:ring-2 focus:ring-blue-500 outline-none"
+            placeholder="Email"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+  
+          <input
+            className="w-full bg-transparent border border-slate-700 rounded-lg p-3 placeholder-slate-500 focus:ring-2 focus:ring-blue-500 outline-none"
+            type="password"
+            placeholder="Password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+  
+          <button className="w-full bg-blue-600 hover:bg-blue-700 transition text-white py-3 rounded-lg font-semibold">
+            Login
+          </button>
+        </form>
       </div>
-    </form>
+    </div>
   );
 }

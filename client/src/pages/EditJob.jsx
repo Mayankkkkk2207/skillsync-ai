@@ -41,27 +41,27 @@ export default function EditJob() {
   return (
     <form
       onSubmit={submit}
-      className="min-h-screen grid place-items-center"
+      className="min-h-screen grid place-items-center px-4 py-8"
     >
-      <div className="w-96 space-y-3">
-        <h2 className="text-xl font-bold">Edit Job</h2>
+      <div className="w-full max-w-md space-y-3">
+        <h2 className="text-xl sm:text-2xl font-bold">Edit Job</h2>
 
         <input
-          className="border p-2 w-full"
+          className="border border-slate-600 bg-slate-900 text-slate-200 p-2.5 sm:p-2 w-full rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
           value={company}
           onChange={e => setCompany(e.target.value)}
           placeholder="Company"
         />
 
         <input
-          className="border p-2 w-full"
+          className="border border-slate-600 bg-slate-900 text-slate-200 p-2.5 sm:p-2 w-full rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
           value={role}
           onChange={e => setRole(e.target.value)}
           placeholder="Role"
         />
 
         <select
-          className="border p-2 w-full"
+          className="border border-slate-600 bg-slate-900 text-slate-200 p-2.5 sm:p-2 w-full rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
           value={status}
           onChange={e => setStatus(e.target.value)}
         >
@@ -72,13 +72,13 @@ export default function EditJob() {
         </select>
 
         <textarea
-          className="border p-2 w-full"
+          className="border border-slate-600 bg-slate-900 text-slate-200 p-2.5 sm:p-2 w-full rounded-lg focus:ring-2 focus:ring-blue-500 outline-none min-h-[80px]"
           value={notes}
           onChange={e => setNotes(e.target.value)}
           placeholder="Notes"
         />
 
-        <button className="bg-black text-white p-2 w-full">
+        <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white p-2.5 sm:p-2 w-full rounded-lg font-medium">
           Update Job
         </button>
       </div>

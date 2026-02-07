@@ -4,13 +4,12 @@ import { Link } from "react-router-dom";
 
 export default function Dashboard() {
   const [jobs, setJobs] = useState([]);
-  const [stats, setStats] = useState(null);
+  const [stats, setStats] = useState({});
   const [status, setStatus] = useState("");
   const [search, setSearch] = useState("");
 
   const fetchJobs = async () => {
     const params = new URLSearchParams();
-
     if (status) params.append("status", status);
     if (search) params.append("search", search);
 
@@ -36,93 +35,100 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="p-6 max-w-5xl mx-auto">
+    <div className="min-h-screen w-full bg-slate-900 text-slate-200">
+      <div className="w-full max-w-6xl mx-auto px-4 py-6 sm:p-6">
 
-      {/* 📊 Stats Cards */}
-      {stats && (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          <StatCard title="Applied" value={stats.applied} />
-          <StatCard title="Interview" value={stats.interview} />
-          <StatCard title="Offer" value={stats.offer} />
-          <StatCard title="Rejected" value={stats.rejected} />
-        </div>
-      )}
-
-      {/* Header */}
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">My Jobs</h1>
-        <Link to="/add-job" className="bg-black text-white px-4 py-2 rounded">
-          + Add Job
-        </Link>
-      </div>
-
-      {/* 🔍 Filters */}
-      <div className="flex gap-4 mb-6">
-        <input
-          className="border p-2 flex-1"
-          placeholder="Search by company or role"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-
-        <select
-          className="border p-2"
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
-        >
-          <option value="">All</option>
-          <option value="applied">Applied</option>
-          <option value="interview">Interview</option>
-          <option value="offer">Offer</option>
-          <option value="rejected">Rejected</option>
-        </select>
-      </div>
-
-      {/* Jobs List */}
-      {jobs.length === 0 ? (
-        <p>No jobs found.</p>
-      ) : (
-        <div className="grid gap-4">
-          {jobs.map((job) => (
+        {/* 🔢 STATS */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
+          {[
+            { label: "Applied", value: stats.applied, color: "text-blue-400" },
+            { label: "Interview", value: stats.interview, color: "text-yellow-400" },
+            { label: "Offer", value: stats.offer, color: "text-green-400" },
+            { label: "Rejected", value: stats.rejected, color: "text-red-400" },
+          ].map((item) => (
             <div
-              key={job._id}
-              className="border p-4 rounded flex justify-between items-center"
+              key={item.label}
+              className="bg-slate-950 border border-slate-800 rounded-xl p-4 sm:p-5"
             >
-              <div>
-                <h3 className="font-semibold">{job.role}</h3>
-                <p className="text-sm text-gray-600">{job.company}</p>
-                <span className="text-xs capitalize">{job.status}</span>
-              </div>
-
-              <div className="space-x-3">
-                <Link
-                  to={`/edit-job/${job._id}`}
-                  className="text-blue-600 text-sm"
-                >
-                  Edit
-                </Link>
-
-                <button
-                  className="text-red-600 text-sm"
-                  onClick={() => deleteJob(job._id)}
-                >
-                  Delete
-                </button>
-              </div>
+              <p className="text-xs sm:text-sm text-slate-400">{item.label}</p>
+              <p className={`text-2xl sm:text-3xl font-bold ${item.color}`}>
+                {item.value ?? 0}
+              </p>
             </div>
           ))}
         </div>
-      )}
-    </div>
-  );
-}
 
-/* 🧩 Reusable Stat Card */
-function StatCard({ title, value }) {
-  return (
-    <div className="border rounded p-4 text-center bg-white shadow-sm">
-      <p className="text-sm text-gray-500">{title}</p>
-      <p className="text-3xl font-bold">{value}</p>
+        {/* HEADER */}
+        <div className="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center mb-6">
+          <h1 className="text-2xl sm:text-3xl font-bold">My Jobs</h1>
+          <Link
+            to="/add-job"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg transition text-center font-medium w-full sm:w-auto"
+          >
+            + Add Job
+          </Link>
+        </div>
+
+        {/* FILTERS */}
+        <div className="bg-slate-950 border border-slate-800 rounded-xl p-4 flex flex-col sm:flex-row gap-3 sm:gap-4 mb-6">
+          <input
+            className="bg-transparent border border-slate-700 rounded-lg p-2 flex-1 placeholder-slate-500 focus:ring-2 focus:ring-blue-500 outline-none"
+            placeholder="Search by company or role"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+
+          <select
+            className="bg-transparent border border-slate-700 rounded-lg p-2"
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+          >
+            <option value="">All</option>
+            <option value="applied">Applied</option>
+            <option value="interview">Interview</option>
+            <option value="offer">Offer</option>
+            <option value="rejected">Rejected</option>
+          </select>
+        </div>
+
+        {/* JOB LIST */}
+        {jobs.length === 0 ? (
+          <p className="text-slate-400">No jobs found.</p>
+        ) : (
+          <div className="grid gap-4">
+            {jobs.map((job) => (
+              <div
+                key={job._id}
+                className="bg-slate-950 border border-slate-800 rounded-xl p-4 sm:p-5 flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-start hover:border-blue-500 transition"
+              >
+                <div className="min-w-0 flex-1">
+                  <h3 className="text-base sm:text-lg font-semibold truncate">{job.role}</h3>
+                  <p className="text-sm text-slate-400 truncate">{job.company}</p>
+                  <span className="inline-block mt-2 px-3 py-1 text-xs rounded-full bg-slate-800 capitalize">
+                    {job.status}
+                  </span>
+                </div>
+
+                <div className="flex gap-4 shrink-0">
+                  <Link
+                    to={`/edit-job/${job._id}`}
+                    className="text-blue-400 hover:text-blue-300 text-sm py-1"
+                  >
+                    Edit
+                  </Link>
+                  <button
+                    type="button"
+                    className="text-red-400 hover:text-red-300 text-sm py-1"
+                    onClick={() => deleteJob(job._id)}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
