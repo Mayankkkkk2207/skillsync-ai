@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api";
+import Button from "../components/Button";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -27,7 +28,7 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-200">
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-200">
       <div className="w-full max-w-md bg-slate-950/80 backdrop-blur border border-slate-800 rounded-2xl p-8 shadow-xl">
   
         <h1 className="text-3xl font-bold mb-2">Welcome Back</h1>
@@ -47,9 +48,9 @@ export default function Login() {
             onChange={(e) => setPassword(e.target.value)}
           />
   
-          <button className="w-full bg-blue-600 hover:bg-blue-700 transition text-white py-3 rounded-lg font-semibold">
+          <Button className="w-full py-3">
             Login
-          </button>
+          </Button>
         </form>
       </div>
     </div>

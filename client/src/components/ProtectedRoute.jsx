@@ -1,6 +1,6 @@
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 
-export default function ProtectedRoute({ children }) {
+export default function ProtectedRoute() {
   const token = localStorage.getItem("token");
   const location = useLocation();
 
@@ -14,5 +14,5 @@ export default function ProtectedRoute({ children }) {
     );
   }
 
-  return children;
+  return <Outlet />;
 }

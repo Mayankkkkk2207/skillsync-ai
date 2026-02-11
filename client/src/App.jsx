@@ -5,6 +5,7 @@ import Dashboard from "./pages/Dashboard";
 import AddJob from "./pages/AddJob";
 import EditJob from "./pages/EditJob";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Layout from "./components/Layout";
 
 export default function App() {
   return (
@@ -12,32 +13,13 @@ export default function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
 
-      <Route
-        path="/dashboard"
-        element={
-          <ProtectedRoute>
-            <Dashboard />
-          </ProtectedRoute>
-        }
-      />
-
-      <Route
-        path="/add-job"
-        element={
-          <ProtectedRoute>
-            <AddJob />
-          </ProtectedRoute>
-        }
-      />
-
-      <Route
-        path="/edit-job/:id"
-        element={
-          <ProtectedRoute>
-            <EditJob />
-          </ProtectedRoute>
-        }
-      />
+      <Route element={<ProtectedRoute />}>
+        <Route element={<Layout />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/add-job" element={<AddJob />} />
+          <Route path="/edit-job/:id" element={<EditJob />} />
+        </Route>
+      </Route>
 
       <Route path="*" element={<Login />} />
     </Routes>

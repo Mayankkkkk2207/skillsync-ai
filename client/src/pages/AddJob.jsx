@@ -1,6 +1,7 @@
 import { useState } from "react";
 import api from "../api";
 import { useNavigate } from "react-router-dom";
+import Button from "../components/Button";
 
 export default function AddJob() {
   const [company, setCompany] = useState("");
@@ -66,12 +67,9 @@ export default function AddJob() {
             onChange={(e) => setNotes(e.target.value)}
           />
 
-          <button
-            type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 py-3 rounded-lg font-semibold"
-          >
+          <Button type="submit" className="w-full py-3">
             Save Job
-          </button>
+          </Button>
         </form>
       </div>
     </div>

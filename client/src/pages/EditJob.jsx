@@ -38,6 +38,13 @@ export default function EditJob() {
     navigate("/dashboard");
   };
 
+  const handleDelete = async () => {
+    if (!confirm("Delete this job?")) return;
+
+    await api.delete(`/jobs/${id}`);
+    navigate("/dashboard");
+  };
+
   return (
     <form
       onSubmit={submit}
@@ -78,9 +85,21 @@ export default function EditJob() {
           placeholder="Notes"
         />
 
-        <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white p-2.5 sm:p-2 w-full rounded-lg font-medium">
-          Update Job
-        </button>
+        <div className="flex gap-3">
+          <button
+            type="submit"
+            className="flex-1 px-4 py-2 sm:px-3 sm:py-2 rounded-lg border border-blue-500 text-blue-400 hover:bg-blue-500/10 text-sm font-medium transition"
+          >
+            Update Job
+          </button>
+          <button
+            type="button"
+            onClick={handleDelete}
+            className="px-4 py-2 sm:px-3 sm:py-2 rounded-lg border border-red-500 text-red-400 hover:bg-red-500/10 text-sm font-medium transition"
+          >
+            Delete
+          </button>
+        </div>
       </div>
     </form>
   );

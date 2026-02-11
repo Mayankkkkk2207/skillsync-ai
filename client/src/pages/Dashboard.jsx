@@ -93,32 +93,47 @@ export default function Dashboard() {
 
         {/* JOB LIST */}
         {jobs.length === 0 ? (
-          <p className="text-slate-400">No jobs found.</p>
+          <div className="text-center py-16 text-slate-400">
+            <p className="text-lg mb-2">No jobs found</p>
+            <p className="text-sm">Start by adding your first application.</p>
+          </div>
         ) : (
           <div className="grid gap-4">
             {jobs.map((job) => (
               <div
                 key={job._id}
-                className="bg-slate-950 border border-slate-800 rounded-xl p-4 sm:p-5 flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-start hover:border-blue-500 transition"
+                className="bg-slate-950 border border-slate-800 rounded-xl p-5 flex justify-between transition-all duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl hover:shadow-blue-500/10"
               >
                 <div className="min-w-0 flex-1">
                   <h3 className="text-base sm:text-lg font-semibold truncate">{job.role}</h3>
                   <p className="text-sm text-slate-400 truncate">{job.company}</p>
-                  <span className="inline-block mt-2 px-3 py-1 text-xs rounded-full bg-slate-800 capitalize">
+                  <span
+                    className={`inline-block mt-2 px-3 py-1 text-xs rounded-full capitalize
+                      ${
+                        job.status === "applied"
+                          ? "bg-blue-500/20 text-blue-400"
+                          : job.status === "interview"
+                          ? "bg-yellow-500/20 text-yellow-400"
+                          : job.status === "offer"
+                          ? "bg-green-500/20 text-green-400"
+                          : "bg-red-500/20 text-red-400"
+                      }
+                    `}
+                  >
                     {job.status}
                   </span>
                 </div>
 
-                <div className="flex gap-4 shrink-0">
+                <div className="flex gap-3 shrink-0 items-center">
                   <Link
                     to={`/edit-job/${job._id}`}
-                    className="text-blue-400 hover:text-blue-300 text-sm py-1"
+                    className="px-3 py-1.5 rounded-lg border border-blue-500 text-blue-400 hover:bg-blue-500/10 text-xs sm:text-sm font-medium transition"
                   >
                     Edit
                   </Link>
                   <button
                     type="button"
-                    className="text-red-400 hover:text-red-300 text-sm py-1"
+                    className="px-3 py-1.5 rounded-lg border border-red-500 text-red-400 hover:bg-red-500/10 text-xs sm:text-sm font-medium transition"
                     onClick={() => deleteJob(job._id)}
                   >
                     Delete
