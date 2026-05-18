@@ -6,12 +6,17 @@ import AddJob from "./pages/AddJob";
 import EditJob from "./pages/EditJob";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Layout from "./components/Layout";
+import ResumeAnalyzer from "./pages/ResumeAnalyzer";
 
 export default function App() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route
+  path="/resume-analyzer"
+  element={<ResumeAnalyzer />}
+/>
 
       <Route element={<ProtectedRoute />}>
         <Route element={<Layout />}>

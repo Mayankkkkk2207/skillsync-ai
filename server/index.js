@@ -11,7 +11,7 @@ import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import jobRoutes from "./routes/jobRoutes.js";
 import analyticsRoutes from "./routes/analyticsRoutes.js";
-
+import resumeRoutes from "./routes/resumeRoutes.js";
 
 const app = express();
 
@@ -27,6 +27,7 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/jobs", jobRoutes);
 app.use("/api/v1/analytics", analyticsRoutes);
+app.use("/api/v1/resume", resumeRoutes);
 
 
 // TEST ROUTE (keep for sanity)
